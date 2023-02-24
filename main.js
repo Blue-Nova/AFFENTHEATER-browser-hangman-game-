@@ -1,3 +1,5 @@
+import { RandomWordGen } from "./randomWordGen.js";
+
 let gameOn = false;
 let wordChars = [];
 let correctChars = [];
@@ -9,7 +11,7 @@ document.addEventListener('keydown', (event) => {
 
     if ((event.key.replace(/[A-Za-z]/, "").length != 0)) return;
 
-    correct = letterInWord(event.key);
+    let correct = letterInWord(event.key);
 
     if (correct != false) {
         correctChars = correctChars + event.key;
@@ -41,7 +43,7 @@ window.onload = function () {
     getWord();
 }
 
-function getWord() {
+document.getElementById("startgame").addEventListener('click', function () {
     gameOn = true;
     correctChars = [];
     wrongChars = [];
@@ -52,10 +54,16 @@ function getWord() {
     wordGen = new RandomWordGen().fetchRandomWord().toLocaleLowerCase();
     wordChars = wordGen.split("");
     refreshWord();
+},
+    true  // Enable event capturing!
+);
+
+function getWord() {
+
 }
 
 function letterInWord(guessed) {
-    correct = false;
+    let correct = false;
     for (let letter of wordChars) {
         if (guessed == letter) {
             correct = guessed;
@@ -70,7 +78,7 @@ function refreshWord() {
 }
 
 function letterAlreadyWrong(letter) {
-    for (wrong_letter of wrongChars) {
+    for (let wrong_letter of wrongChars) {
         console.log(wrong_letter + " matching " + letter);
         if (wrong_letter == letter) return true;
     }
@@ -97,14 +105,14 @@ function bakeWord(word) {
 
     }
 
-    baked_word = hidden_word;
+    let baked_word = hidden_word;
     return baked_word;
 }
 
 function won() {
-    for (letter of wordChars) {
+    for (let letter of wordChars) {
         let found = false;
-        for (correct_letter of correctChars) {
+        for (let correct_letter of correctChars) {
             if (correct_letter == letter) {
                 found = true;
                 break;
