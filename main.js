@@ -36,6 +36,10 @@ document.addEventListener('keydown', (event) => {
 let word_FRONT = document.getElementById("word");
 let wrong_letters_FRONT = document.getElementById("wrong_letters");
 
+window.onload = function () {
+    getWord();
+}
+
 function getWord() {
     gameOn = true;
     correctChars = [];
