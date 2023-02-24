@@ -17,6 +17,7 @@ document.addEventListener('keydown', (event) => {
         refreshWord();
         if (won()) {
             console.log("YOU WON");
+            word_FRONT.style.color = "#33ff44";
             gameOn = false;
         }
     } else {
@@ -45,6 +46,7 @@ function getWord() {
     correctChars = [];
     wrongChars = [];
     wrong_letters_FRONT.innerHTML = "";
+    word_FRONT.style.color = "#000000";
 
     let wordGen;
     wordGen = new RandomWordGen().fetchRandomWord().toLocaleLowerCase();
