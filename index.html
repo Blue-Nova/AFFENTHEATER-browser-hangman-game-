@@ -8,17 +8,33 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Labrada:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <h1 class="title">AFFEN THEATER</h1>
-    <div class="game_div">
-        <h1 id="word">______</h1>
-        <div class="wrond_div">
-            <h4 id="wrong_letters"></h4>
+    <div class="page_div">
+        <div class="page_colum_div">
+            <form class="word_add_form widget">
+                <label class="word_input_label" for="word-input">Add a word to the list:</label><br>
+                <input type="text" id="word-input" class="word_input_field">
+                <button type="submit" id="submit-button" class="word_input_submit">Submit</button>
+            </form>
         </div>
-
-        <input id="startgame" type="button" value="Click Me"><br>
+        <div class="page_colum_div">
+            <div class="game_div widget">
+                <h1 id="word">______</h1>
+                <div class="wrond_div">
+                    <h4 id="wrong_letters"></h4>
+                </div>
+                <input id="startgame" type="button" value="Restart Game"><br>
+            </div>
+        </div>
+        <div class="page_colum_div">
+            <p>test test testtest test testtest test testtest test testtest test testtest test testtest test test</p>
+        </div>
     </div>
     <script src="RandomWordGen.js" async defer type="module"></script>
     <script src="main.js" async defer type="module"></script>

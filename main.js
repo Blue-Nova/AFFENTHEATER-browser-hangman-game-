@@ -1,19 +1,30 @@
-import { RandomWordGen } from "./randomWordGen.js";
+
+const apiUrl = new URL(`https://random-word-api.herokuapp.com/word?lang=de`);
+const wordInput = document.getElementById('word-input');
+const submitButton = document.getElementById('submit-button');
+
 
 let gameOn = false;
 let wordChars = [];
 let correctChars = [];
 let wrongChars = [];
 
+submitButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (wordInput.value == '') return;
+    let newWord = wordInput.value;
+    RWG.addWord(newWord);
+    wordInput.value = '';
+});
 
 document.addEventListener('keydown', (event) => {
     if (!gameOn) return;
 
-    if ((event.key.replace(/[A-Za-z]/, "").length != 0)) return;
+    if (event.key.match(/[0-9]/)) return;
+    if ((event.key.replace(/[^a-zA-Zäöüß]/g, "").length == 0)) return;
+    if ((event.key.length > 1)) return;
 
-    let correct = letterInWord(event.key);
-
-    if (correct != false) {
+    if (letterInWord(event.key.toLocaleLowerCase())) {
         correctChars = correctChars + event.key;
         console.log("refreshing");
         refreshWord();
@@ -34,7 +45,7 @@ document.addEventListener('keydown', (event) => {
         refreshWrongGuesses();
     }
 
-}, false);
+}, true);
 
 let word_FRONT = document.getElementById("word");
 let wrong_letters_FRONT = document.getElementById("wrong_letters");
@@ -43,16 +54,20 @@ window.onload = function () {
     getWord();
 }
 
-document.getElementById("startgame").addEventListener('click', function () {
+document.getElementById("startgame").addEventListener('click', async function () {
     gameOn = true;
     correctChars = [];
     wrongChars = [];
     wrong_letters_FRONT.innerHTML = "";
-    word_FRONT.style.color = "#000000";
+    word_FRONT.style.color = "#f5f5f5";
 
-    let wordGen;
-    wordGen = new RandomWordGen().fetchRandomWord().toLocaleLowerCase();
-    wordChars = wordGen.split("");
+    let response;
+    let data;
+    let wordLower;
+    response = await fetch(apiUrl);
+    data = await response.json();
+    wordLower = data[0].toLowerCase();
+    wordChars = wordLower.split("");
     refreshWord();
 },
     true  // Enable event capturing!
@@ -78,9 +93,9 @@ function refreshWord() {
 }
 
 function letterAlreadyWrong(letter) {
-    for (let wrong_letter of wrongChars) {
-        console.log(wrong_letter + " matching " + letter);
-        if (wrong_letter == letter) return true;
+    for (let wrongLetter of wrongChars) {
+        console.log(wrongLetter + " matching " + letter);
+        if (wrongLetter == letter) return true;
     }
     return false;
 }
@@ -90,22 +105,22 @@ function refreshWrongGuesses() {
 }
 
 function bakeWord(word) {
-    let hidden_word = [];
+    let hiddenWord = [];
     let index = 0;
     for (var i = 0; i < word.length; i++) {
-        let letter_found = false;
+        let letterFound = false;
         for (var k = 0; k < correctChars.length; k++) {
             if (word[i] == correctChars[k]) {
-                letter_found = true;
-                hidden_word[index] = correctChars[k];
+                letterFound = true;
+                hiddenWord[index] = correctChars[k];
             }
         }
-        if (!letter_found) hidden_word[index] = "_";
+        if (!letterFound) hiddenWord[index] = "_";
         index++;
 
     }
 
-    let baked_word = hidden_word;
+    let baked_word = hiddenWord;
     return baked_word;
 }
 
