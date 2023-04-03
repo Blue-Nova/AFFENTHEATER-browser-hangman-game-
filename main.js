@@ -1,17 +1,26 @@
 const apiUrl = new URL(`https://random-word-api.herokuapp.com/word?lang=en`);
+
 const wordInput = document.getElementById('word-input');
 const submitButton = document.getElementById('submit-button');
 const current_mode_text = document.getElementById('current_mode');
 const current_mode_btn = document.getElementById('current_mode_btn');
+const wrong_count_text = document.getElementById('wrong_count');
 
+let wrong_count = 0;
 let word_from_list = false;
 let gameOn = false;
 let wordChars = [];
 let correctChars = [];
 let wrongChars = [];
+let allowed_to_add_word = false;
 
 submitButton.addEventListener('click', async (event) => {
     event.preventDefault();
+    if (!allowed_to_add_word) {
+        wordInput.value = "You must win a round first!";
+        return;
+    }
+    allowed_to_add_word = false;
     if (wordInput.value.match(/[1-9 ]/)) return;
     if (!wordInput.value.match(/[a-zA-z]/)) return;
     let check_word_request = new URL("https://api.dictionaryapi.dev/api/v2/entries/en/" + wordInput.value);
@@ -39,6 +48,7 @@ document.addEventListener('keydown', (event) => {
         if (won()) {
             word_FRONT.style.color = "#33ff44";
             gameOn = false;
+            allowed_to_add_word = true;
         }
     } else {
         if (wrongChars.length != 0) {
@@ -47,6 +57,7 @@ document.addEventListener('keydown', (event) => {
             }
         }
         wrongChars.push(event.key);
+        wrong_count++;
         refreshWrongGuesses();
     }
 
@@ -61,6 +72,7 @@ window.onload = function () {
 
 document.getElementById("startgame").addEventListener('click', async function () {
     gameOn = true;
+    wrong_count = 0;
     correctChars = [];
     wrongChars = [];
     wrong_letters_FRONT.innerHTML = "";
@@ -110,6 +122,7 @@ function letterAlreadyWrong(letter) {
 
 function refreshWrongGuesses() {
     wrong_letters_FRONT.innerHTML = "Wrong Guesses: " + wrongChars;
+    wrong_count_text.innerHTML = "Amount of Wrong Guesses: " + wrong_count;
 }
 
 function bakeWord(word) {
@@ -123,7 +136,7 @@ function bakeWord(word) {
                 hiddenWord[index] = correctChars[k];
             }
         }
-        if (!letterFound) hiddenWord[index] = "_";
+        if (!letterFound) hiddenWord[index] = " _";
         index++;
 
     }
