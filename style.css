@@ -11,7 +11,7 @@ html * {
 }
 
 body {
-    background: linear-gradient(0deg, rgba(110, 152, 0, 1) 0%, rgba(125, 77, 0, 1) 100%);
+    background: linear-gradient(0deg, rgb(208, 254, 254) 0%, rgb(28, 204, 248) 100%);
     height: 100%;
     width: 100%;
 }
@@ -23,6 +23,7 @@ body {
 .page_div {
     display: flex;
     flex-direction: column;
+    height: 50vh;
 }
 
 .game_div {
@@ -30,6 +31,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: 50vh;
 }
 
 .word_input_label {
@@ -44,10 +46,40 @@ body {
 }
 
 .word_input_field:focus {
-    border: 3px solid #555;
+    border: 3px solid #5daeae;
 }
 
-@media screen and (min-width: 650px) {
+.widget {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(62, 111, 105, 0.5);
+    padding: 5px;
+    margin: 5px 0 5px 0;
+    border-radius: 3px;
+    min-height: 20vh;
+    min-width: 100vw;
+}
+
+.game_canvas {
+    display: inline;
+    height: 40%;
+    width: 100%;
+    max-width: 50vw;
+    border: 1px solid black;
+}
+
+/*------ANIMATING OBJECTS------*/
+.ground {
+    background: radial-gradient(circle, rgba(4, 0, 125, 1) 31%, rgba(43, 0, 161, 0) 33%);
+    min-width: 10%;
+    min-height: 2.5%;
+    top: 50%;
+    left: 45%;
+}
+
+@media screen and (min-width: 850px) {
 
     .page_colum_div {
         flex: 33.33%;
@@ -64,13 +96,8 @@ body {
     }
 
     .widget {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background-color: rgb(55, 55, 0, 0.5);
         border-radius: 10px;
-        padding: 10px;
-        min-height: 20vh;
+        min-height: 30vh;
+        min-width: 25vw;
     }
 }

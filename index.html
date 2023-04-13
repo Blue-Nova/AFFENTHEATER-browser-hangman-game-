@@ -18,31 +18,33 @@
     <div class="page_div">
         <div class="page_colum_div">
             <form class="word_add_form widget">
-                <label class="word_input_label" for="word-input">Add a word to the list:</label><br>
+                <label id="add_word_text" class="word_input_label" for="word-input">Add a word to the list:</label><br>
                 <input type="text" id="word-input" class="word_input_field">
                 <button type="submit" id="submit-button" class="word_input_submit">Submit</button>
             </form>
         </div>
         <div class="page_colum_div">
             <div class="game_div widget">
-                <h1 id="word">Dr__k_R_st_rt</h1>
+                <h1 id="word">Pr__s_R_st_rt</h1>
                 <div class="wrond_div">
                     <h4 id="wrong_letters"></h4>
                     <h4 id="wrong_count"></h4>
                 </div>
                 <input id="startgame" type="button" value="Restart Game"><br>
+                <canvas class="game_canvas" width="600" height="400"></canvas>
             </div>
         </div>
         <div class="page_colum_div">
             <div class="word_soruce_div widget">
                 <h1>Currently getting words from:</h1>
                 <button id="current_mode_btn">
-                    <h2 id="current_mode">Dictionary</h2>
+                    <h1 id="current_mode">Dictionary</h1>
                 </button>
             </div>
         </div>
     </div>
     <script src="main.js" async defer type="module"></script>
+    <script src="animate_game.js" async defer type="module"></script>
 
 </body>
 

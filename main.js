@@ -1,3 +1,5 @@
+import animator from '/animate_game.js';
+const animObject = new animator();
 const apiUrl = new URL(`https://random-word-api.herokuapp.com/word?lang=en`);
 
 const wordInput = document.getElementById('word-input');
@@ -5,8 +7,12 @@ const submitButton = document.getElementById('submit-button');
 const current_mode_text = document.getElementById('current_mode');
 const current_mode_btn = document.getElementById('current_mode_btn');
 const wrong_count_text = document.getElementById('wrong_count');
+const add_word_text = document.getElementById('add_word_text');
+const word_FRONT = document.getElementById("word");
+const wrong_letters_FRONT = document.getElementById("wrong_letters");
+const max_tries = 10;
 
-let wrong_count = 0;
+let wrong_count = max_tries;
 let word_from_list = false;
 let gameOn = false;
 let wordChars = [];
@@ -14,15 +20,18 @@ let correctChars = [];
 let wrongChars = [];
 let allowed_to_add_word = false;
 
+//////////////// ADDING WORD TO THE GLOBAL LIST //////////////////
 submitButton.addEventListener('click', async (event) => {
+    // preventing default behaviour and checking for correct inputs
     event.preventDefault();
     if (!allowed_to_add_word) {
         wordInput.value = "You must win a round first!";
         return;
     }
-    allowed_to_add_word = false;
     if (wordInput.value.match(/[1-9 ]/)) return;
     if (!wordInput.value.match(/[a-zA-z]/)) return;
+
+    //
     let check_word_request = new URL("https://api.dictionaryapi.dev/api/v2/entries/en/" + wordInput.value);
     let response = await fetch(check_word_request);
     let data = await response.json();
@@ -31,52 +40,56 @@ submitButton.addEventListener('click', async (event) => {
     else if (!word_exists(wordInput.value)) {
         let length = localStorage.length + 1
         localStorage.setItem(length.toString(), wordInput.value);
+        allowed_to_add_word = false;
+        wordInput.value = 'Word Added!';
+        add_word_text.style.color = '#f5f5f5';
+    } else {
+        wordInput.value = 'Word already exists!';
     }
-    wordInput.value = '';
 });
 
+//////////////// KEY DOWN EVENT //////////////////
 document.addEventListener('keydown', (event) => {
     if (!gameOn) return;
 
     if (event.key.match(/[0-9]/)) return;
     if ((event.key.replace(/[^a-zA-Z]/g, "").length == 0)) return;
-    if ((event.key.length > 1)) return;
-
-    if (letterInWord(event.key.toLocaleLowerCase())) {
-        correctChars = correctChars + event.key;
+    if ((event.key.length > 1)) return; // work here !!!!!!!!!!!!!!!!!!!!!!!!
+    let guessed_letter = event.key.toLocaleLowerCase();
+    if (letterInWord(guessed_letter)) {
+        correctChars.push(guessed_letter);
         refreshWord();
         if (won()) {
             word_FRONT.style.color = "#33ff44";
             gameOn = false;
             allowed_to_add_word = true;
+            add_word_text.style.color = '#33ff44';
         }
     } else {
         if (wrongChars.length != 0) {
-            if (letterAlreadyWrong(event.key)) {
+            if (letterAlreadyWrong(guessed_letter)) {
                 return;
             }
         }
-        wrongChars.push(event.key);
+        wrongChars.push(guessed_letter);
         wrong_count++;
         refreshWrongGuesses();
+        animObject.animate_step(wrong_count);
+        if (wrong_count >= max_tries) lose();
     }
 
 }, true);
 
-let word_FRONT = document.getElementById("word");
-let wrong_letters_FRONT = document.getElementById("wrong_letters");
-
-window.onload = function () {
-    getWord();
-}
-
+//////////////// STARTING GAME ON PRESSING BUTTON //////////////////
 document.getElementById("startgame").addEventListener('click', async function () {
     gameOn = true;
     wrong_count = 0;
     correctChars = [];
     wrongChars = [];
     wrong_letters_FRONT.innerHTML = "";
+    wrong_count_text.innerHTML = "";
     word_FRONT.style.color = "#f5f5f5";
+    animObject.animate_step(0);
     if (!word_from_list) {
         let response;
         let data;
@@ -94,10 +107,7 @@ document.getElementById("startgame").addEventListener('click', async function ()
     true  // Enable event capturing!
 );
 
-function getWord() {
-
-}
-
+//////////////// CHECK IF GUESSED LETTER IS CORRECT //////////////////
 function letterInWord(guessed) {
     let correct = false;
     for (let letter of wordChars) {
@@ -113,18 +123,18 @@ function refreshWord() {
     word_FRONT.innerHTML = bakeWord(wordChars).join("");
 }
 
+function refreshWrongGuesses() {
+    wrong_letters_FRONT.innerHTML = "Wrong Guesses: " + wrongChars;
+    wrong_count_text.innerHTML = "Amount of Wrong Guesses: " + wrong_count;
+}
+
 function letterAlreadyWrong(letter) {
     for (let wrongLetter of wrongChars) {
         if (wrongLetter == letter) return true;
     }
     return false;
 }
-
-function refreshWrongGuesses() {
-    wrong_letters_FRONT.innerHTML = "Wrong Guesses: " + wrongChars;
-    wrong_count_text.innerHTML = "Amount of Wrong Guesses: " + wrong_count;
-}
-
+//////////////// RETURN STRING WITH GUESSED AND STILL HIDDEN LETTERS //////////////////
 function bakeWord(word) {
     let hiddenWord = [];
     let index = 0;
@@ -138,13 +148,12 @@ function bakeWord(word) {
         }
         if (!letterFound) hiddenWord[index] = " _";
         index++;
-
     }
 
     let baked_word = hiddenWord;
     return baked_word;
 }
-
+//////////////// WINNING CASE CHECK //////////////////
 function won() {
     for (let letter of wordChars) {
         let found = false;
@@ -158,11 +167,22 @@ function won() {
     }
     return true;
 }
-/////////////// WORDLIST CLASS
+//////////////// FUNCTION UPON LOSS //////////////////
+function lose() {
+    gameOn = false;
+    word_FRONT.style.color = "#ff2222";
+    correctChars = wordChars;
+    refreshWord();
+}
+/////////////////////////////////////////////////////
+/////////////// WORDLIST CLASS //////////////////////
+/////////////////////////////////////////////////////
+
 function get_random_word() {
     return localStorage.getItem((Math.floor(Math.random() * localStorage.length)) + 1);
 }
 
+//////////////// CHECK IF INPUTED WORD ALREADY EXISTS IN LOCAL STORAGE //////////////////
 function word_exists(new_word) {
     for (var i = 0; i < localStorage.length; i++) {
         console.log("checking: " + localStorage.getItem(localStorage.key(i)));
