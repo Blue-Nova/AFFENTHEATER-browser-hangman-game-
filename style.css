@@ -31,7 +31,6 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 50vh;
 }
 
 .word_input_label {
@@ -99,5 +98,10 @@ body {
         border-radius: 10px;
         min-height: 30vh;
         min-width: 25vw;
+    }
+
+    .game_canvas {
+        max-width: 25vw;
+        min-height: 25vw;
     }
 }

@@ -1,5 +1,5 @@
 import animator from '/animate_game.js';
-const animObject = new animator();
+const animObject = new animator(25);
 const apiUrl = new URL(`https://random-word-api.herokuapp.com/word?lang=en`);
 
 const wordInput = document.getElementById('word-input');
@@ -82,14 +82,7 @@ document.addEventListener('keydown', (event) => {
 
 //////////////// STARTING GAME ON PRESSING BUTTON //////////////////
 document.getElementById("startgame").addEventListener('click', async function () {
-    gameOn = true;
-    wrong_count = 0;
-    correctChars = [];
-    wrongChars = [];
-    wrong_letters_FRONT.innerHTML = "";
-    wrong_count_text.innerHTML = "";
-    word_FRONT.style.color = "#f5f5f5";
-    animObject.animate_step(0);
+    gameOn = false;
     if (!word_from_list) {
         let response;
         let data;
@@ -102,6 +95,14 @@ document.getElementById("startgame").addEventListener('click', async function ()
         wordChars = get_random_word().toLocaleLowerCase().split("");
 
     }
+    gameOn = true;
+    wrong_count = 0;
+    correctChars = [];
+    wrongChars = [];
+    wrong_letters_FRONT.innerHTML = "";
+    wrong_count_text.innerHTML = "";
+    word_FRONT.style.color = "#f5f5f5";
+    animObject.animate_step(0);
     refreshWord();
 },
     true  // Enable event capturing!
