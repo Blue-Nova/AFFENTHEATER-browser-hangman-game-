@@ -21,6 +21,12 @@ export default class animator {
                 break;
             case 2:
                 this.ctx.fillRect(...this.getLoc(30, 20), ...this.getLoc(1, 60));
+                this.ctx.beginPath();
+                this.ctx.moveTo(...this.getLoc(35.5, 80));
+                this.ctx.lineTo(...this.getLoc(30.5, 75));
+                this.ctx.moveTo(...this.getLoc(25.5, 80));
+                this.ctx.lineTo(...this.getLoc(30.5, 75));
+                this.ctx.stroke();
                 break;
             case 3:
                 this.ctx.fillRect(...this.getLoc(30, 20), ...this.getLoc(20, 1));

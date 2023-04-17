@@ -1,17 +1,22 @@
 import animator from '/animate_game.js';
+import dictionary from '/dictionary.js';
 const animObject = new animator(25);
+const dicObect = new dictionary();
 const apiUrl = new URL(`https://random-word-api.herokuapp.com/word?lang=en`);
 
 const wordInput = document.getElementById('word-input');
 const submitButton = document.getElementById('submit-button');
 const current_mode_text = document.getElementById('current_mode');
 const current_mode_btn = document.getElementById('current_mode_btn');
+const current_lang_btn = document.getElementById('current_lang_btn');
+const current_lang_text = document.getElementById('current_lang');
 const wrong_count_text = document.getElementById('wrong_count');
 const add_word_text = document.getElementById('add_word_text');
 const word_FRONT = document.getElementById("word");
 const wrong_letters_FRONT = document.getElementById("wrong_letters");
 const max_tries = 10;
 
+let english = false;
 let wrong_count = max_tries;
 let word_from_list = false;
 let gameOn = false;
@@ -28,9 +33,9 @@ submitButton.addEventListener('click', async (event) => {
         wordInput.value = "You must win a round first!";
         return;
     }
-    if (wordInput.value.match(/[1-9 ]/)) return;
-    if (!wordInput.value.match(/[a-zA-z]/)) return;
-
+    if (wordInput.value.match(/[0-9 ]/)) return;
+    if (english) if (!wordInput.value.match(/[a-zA-z]/)) return;
+    else if (!wordInput.value.match(/[a-zA-zäöüÄÖÜ]/)) return;
     //
     let check_word_request = new URL("https://api.dictionaryapi.dev/api/v2/entries/en/" + wordInput.value);
     let response = await fetch(check_word_request);
@@ -51,9 +56,9 @@ submitButton.addEventListener('click', async (event) => {
 //////////////// KEY DOWN EVENT //////////////////
 document.addEventListener('keydown', (event) => {
     if (!gameOn) return;
-
     if (event.key.match(/[0-9]/)) return;
-    if ((event.key.replace(/[^a-zA-Z]/g, "").length == 0)) return;
+    if (english) { if ((event.key.replace(/[^a-zA-Z]/g, "").length == 0)) return; }
+    else { if ((event.key.replace(/[^a-zA-ZäöüÄÖÜ]/g, "").length == 0)) return; }
     if ((event.key.length > 1)) return; // work here !!!!!!!!!!!!!!!!!!!!!!!!
     let guessed_letter = event.key.toLocaleLowerCase();
     if (letterInWord(guessed_letter)) {
@@ -82,15 +87,22 @@ document.addEventListener('keydown', (event) => {
 
 //////////////// STARTING GAME ON PRESSING BUTTON //////////////////
 document.getElementById("startgame").addEventListener('click', async function () {
+    let wordLower;
     gameOn = false;
     if (!word_from_list) {
-        let response;
-        let data;
-        let wordLower;
-        response = await fetch(apiUrl);
-        data = await response.json();
-        wordLower = data[0].toLowerCase();
-        wordChars = wordLower.split("");
+        if (english) {
+            let response;
+            let data;
+            response = await fetch(apiUrl);
+            data = await response.json();
+            wordLower = data[0].toLowerCase();
+            wordChars = wordLower.split("");
+        } else {
+            do {
+                wordLower = dicObect.getRandom().toLocaleLowerCase("de");
+            } while (wordLower.match(/[0-9]-/))
+            wordChars = wordLower.split("");
+        }
     } else {
         wordChars = get_random_word().toLocaleLowerCase().split("");
 
@@ -200,4 +212,10 @@ current_mode_btn.addEventListener('click', function () {
     word_from_list = !word_from_list
     if (word_from_list) current_mode_text.textContent = "List"
     else current_mode_text.textContent = "Dictionary"
+}, true)
+
+current_lang_btn.addEventListener('click', function () {
+    english = !english
+    if (english) current_lang_text.textContent = "English"
+    else current_lang_text.textContent = "German"
 }, true)

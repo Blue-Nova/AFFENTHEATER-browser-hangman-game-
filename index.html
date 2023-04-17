@@ -18,7 +18,7 @@
     <div class="page_div">
         <div class="page_colum_div">
             <form class="word_add_form widget">
-                <label id="add_word_text" class="word_input_label" for="word-input">Add a word to the list:</label><br>
+                <h1 id="add_word_text" class="word_input_label" for="word-input">Add a word to the list:</h1><br>
                 <input type="text" id="word-input" class="word_input_field">
                 <button type="submit" id="submit-button" class="word_input_submit">Submit</button>
             </form>
@@ -40,11 +40,16 @@
                 <button id="current_mode_btn">
                     <h1 id="current_mode">Dictionary</h1>
                 </button>
+                <h1>Language is currently:</h1>
+                <button id="current_lang_btn">
+                    <h1 id="current_lang">German</h1>
+                </button>
             </div>
         </div>
     </div>
     <script src="main.js" async defer type="module"></script>
     <script src="animate_game.js" async defer type="module"></script>
+    <script src="dictionary.js" async defer type="module"></script>
 
 </body>
 
