@@ -10,41 +10,45 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Labrada:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <h1 class="title">AFFEN THEATER</h1>
     <div class="page_div">
-        <div class="page_colum_div">
+        <div class="options_colum_div">
             <form class="word_add_form widget">
-                <h1 id="add_word_text" class="word_input_label" for="word-input">Add a word to the list:</h1><br>
+                <h3>Add a word to the list:</h3>
                 <input type="text" id="word-input" class="word_input_field">
-                <button type="submit" id="submit-button" class="word_input_submit">Submit</button>
+                <button type="submit" id="submit-button" class="word_input_submit button">SUBMIT</button>
             </form>
+            <div class="word_soruce_div widget">
+                <h3>Currently getting words from:</h3>
+                <h3 id="current_mode">Dictionary</h3>
+                <input type="checkbox" id="current_mode_btn" /><label class="toggle"
+                    for="night-mode-toggle">Toggle</label>
+                <button id="current_lang_btn">
+                    <h3 id="current_lang">German</h3>
+                </button>
+                <input type="checkbox" id="night-mode-toggle" /><label class="toggle"
+                    for="night-mode-toggle">Toggle</label>
+            </div>
         </div>
-        <div class="page_colum_div">
-            <div class="game_div widget">
+        <div class="game_colum_div">
+            <div class="game_div main_widget">
                 <h1 id="word">Pr__s_R_st_rt</h1>
-                <div class="wrond_div">
+                <div class="wrong_div">
                     <h4 id="wrong_letters"></h4>
                     <h4 id="wrong_count"></h4>
                 </div>
-                <input id="startgame" type="button" value="Restart Game"><br>
+                <button class="button" id="startgame" type="button">RESTART GAME</button><br>
                 <canvas class="game_canvas" width="1080" height="1080"></canvas>
             </div>
         </div>
-        <div class="page_colum_div">
-            <div class="word_soruce_div widget">
-                <h1>Currently getting words from:</h1>
-                <button id="current_mode_btn">
-                    <h1 id="current_mode">Dictionary</h1>
-                </button>
-                <h1>Language is currently:</h1>
-                <button id="current_lang_btn">
-                    <h1 id="current_lang">German</h1>
-                </button>
-            </div>
+        <div class="filler_colum_div">
+
         </div>
     </div>
     <script src="main.js" async defer type="module"></script>

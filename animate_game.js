@@ -5,7 +5,8 @@ export default class animator {
     cHeight = this.canvas[0].height;
     cWidth = this.canvas[0].width;
     constructor(lineScale) {
-        this.ctx.fillStyle = "rgb(50, 50, 50)";
+        this.ctx.strokeStyle = "#808080";
+        this.ctx.fillStyle = "#808080";
         this.ctx.lineWidth = (lineScale / 100) * ((this.cWidth * 0.01) * (this.cHeight * 0.0025));
     }
     getLoc(percentX, percentY) {
@@ -17,7 +18,7 @@ export default class animator {
     animate_step(step) {
         switch (step) {
             case 1:
-                this.ctx.fillRect(...this.getLoc(0, 80), ...this.getLoc(100, 20));
+                this.ctx.fillRect(...this.getLoc(10, 80), ...this.getLoc(80, 1));
                 break;
             case 2:
                 this.ctx.fillRect(...this.getLoc(30, 20), ...this.getLoc(1, 60));

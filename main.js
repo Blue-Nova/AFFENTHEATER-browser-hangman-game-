@@ -4,6 +4,7 @@ const animObject = new animator(25);
 const dicObect = new dictionary();
 const apiUrl = new URL(`https://random-word-api.herokuapp.com/word?lang=en`);
 
+const nightModeToggle = document.getElementById("night-mode-toggle");
 const wordInput = document.getElementById('word-input');
 const submitButton = document.getElementById('submit-button');
 const current_mode_text = document.getElementById('current_mode');
@@ -47,7 +48,6 @@ submitButton.addEventListener('click', async (event) => {
         localStorage.setItem(length.toString(), wordInput.value);
         allowed_to_add_word = false;
         wordInput.value = 'Word Added!';
-        add_word_text.style.color = '#f5f5f5';
     } else {
         wordInput.value = 'Word already exists!';
     }
@@ -65,7 +65,6 @@ document.addEventListener('keydown', (event) => {
         correctChars.push(guessed_letter);
         refreshWord();
         if (won()) {
-            word_FRONT.style.color = "#33ff44";
             gameOn = false;
             allowed_to_add_word = true;
             add_word_text.style.color = '#33ff44';
@@ -113,7 +112,6 @@ document.getElementById("startgame").addEventListener('click', async function ()
     wrongChars = [];
     wrong_letters_FRONT.innerHTML = "";
     wrong_count_text.innerHTML = "";
-    word_FRONT.style.color = "#f5f5f5";
     animObject.animate_step(0);
     refreshWord();
 },
@@ -137,7 +135,7 @@ function refreshWord() {
 }
 
 function refreshWrongGuesses() {
-    wrong_letters_FRONT.innerHTML = "Wrong Guesses: " + wrongChars;
+    wrong_letters_FRONT.innerHTML = wrongChars;
     wrong_count_text.innerHTML = "Amount of Wrong Guesses: " + wrong_count;
 }
 
@@ -183,7 +181,6 @@ function won() {
 //////////////// FUNCTION UPON LOSS //////////////////
 function lose() {
     gameOn = false;
-    word_FRONT.style.color = "#ff2222";
     correctChars = wordChars;
     refreshWord();
 }
@@ -219,3 +216,10 @@ current_lang_btn.addEventListener('click', function () {
     if (english) current_lang_text.textContent = "English"
     else current_lang_text.textContent = "German"
 }, true)
+
+///////////// UTILITY ///////////
+
+nightModeToggle.addEventListener("change", function () {
+    console.log("test");
+    document.body.classList.toggle("dark-mode");
+});
