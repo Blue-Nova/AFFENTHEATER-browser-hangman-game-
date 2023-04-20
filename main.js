@@ -12,9 +12,11 @@ const current_mode_btn = document.getElementById('current_mode_btn');
 const current_lang_btn = document.getElementById('current_lang_btn');
 const current_lang_text = document.getElementById('current_lang');
 const wrong_count_text = document.getElementById('wrong_count');
-const add_word_text = document.getElementById('add_word_text');
 const word_FRONT = document.getElementById("word");
 const wrong_letters_FRONT = document.getElementById("wrong_letters");
+const theme_txt = document.getElementById("theme_txt");
+const word_add_form = document.getElementById("word_add_form");
+const word_add_response = document.getElementById("word_add_response");
 const max_tries = 10;
 
 let english = false;
@@ -34,7 +36,7 @@ submitButton.addEventListener('click', async (event) => {
         wordInput.value = "You must win a round first!";
         return;
     }
-    if (wordInput.value.match(/[0-9 ]/)) return;
+    if (wordInput.value.match(/[0-9\s]/)) return;
     if (english) if (!wordInput.value.match(/[a-zA-z]/)) return;
     else if (!wordInput.value.match(/[a-zA-zäöüÄÖÜ]/)) return;
     //
@@ -42,24 +44,32 @@ submitButton.addEventListener('click', async (event) => {
     let response = await fetch(check_word_request);
     let data = await response.json();
     let obj = JSON.parse(JSON.stringify(data));
-    if (obj.title) console.log("not a word");
+    if (obj.title) word_add_response.innerHTML = 'Not a Word!';
     else if (!word_exists(wordInput.value)) {
         let length = localStorage.length + 1
         localStorage.setItem(length.toString(), wordInput.value);
         allowed_to_add_word = false;
-        wordInput.value = 'Word Added!';
+        setTimeout(() => {
+            word_add_form.style.opacity = 0;
+            word_add_form.style.transition = "opacity 0.3s ease";
+            setTimeout(() => {
+                word_add_form.style.visibility = "hidden";
+                word_add_response.innerHTML = '&nbsp;';
+                wordInput.value = '';
+            }, 300);
+        }, 1000);
+        word_add_response.innerHTML = 'Word Added!';
     } else {
-        wordInput.value = 'Word already exists!';
+        word_add_response.innerHTML = 'Word already exists!';
     }
 });
 
 //////////////// KEY DOWN EVENT //////////////////
 document.addEventListener('keydown', (event) => {
     if (!gameOn) return;
-    if (event.key.match(/[0-9]/)) return;
+    if (event.key.match(/[0-9]/) || (event.key.length > 1)) return;
     if (english) { if ((event.key.replace(/[^a-zA-Z]/g, "").length == 0)) return; }
     else { if ((event.key.replace(/[^a-zA-ZäöüÄÖÜ]/g, "").length == 0)) return; }
-    if ((event.key.length > 1)) return; // work here !!!!!!!!!!!!!!!!!!!!!!!!
     let guessed_letter = event.key.toLocaleLowerCase();
     if (letterInWord(guessed_letter)) {
         correctChars.push(guessed_letter);
@@ -67,7 +77,8 @@ document.addEventListener('keydown', (event) => {
         if (won()) {
             gameOn = false;
             allowed_to_add_word = true;
-            add_word_text.style.color = '#33ff44';
+            word_add_form.style.visibility = "visible";
+            word_add_form.style.opacity = 1;
         }
     } else {
         if (wrongChars.length != 0) {
@@ -110,8 +121,8 @@ document.getElementById("startgame").addEventListener('click', async function ()
     wrong_count = 0;
     correctChars = [];
     wrongChars = [];
-    wrong_letters_FRONT.innerHTML = "";
-    wrong_count_text.innerHTML = "";
+    wrong_letters_FRONT.innerHTML = "&nbsp;";
+    wrong_count_text.innerHTML = "&nbsp;";
     animObject.animate_step(0);
     refreshWord();
 },
@@ -220,6 +231,7 @@ current_lang_btn.addEventListener('click', function () {
 ///////////// UTILITY ///////////
 
 nightModeToggle.addEventListener("change", function () {
-    console.log("test");
     document.body.classList.toggle("dark-mode");
+    if (nightModeToggle.checked) theme_txt.innerHTML = "Dark";
+    else theme_txt.innerHTML = "Light";
 });

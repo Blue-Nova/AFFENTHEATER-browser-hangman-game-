@@ -19,36 +19,56 @@
     <h1 class="title">AFFEN THEATER</h1>
     <div class="page_div">
         <div class="options_colum_div">
-            <form class="word_add_form widget">
-                <h3>Add a word to the list:</h3>
-                <input type="text" id="word-input" class="word_input_field">
-                <button type="submit" id="submit-button" class="word_input_submit button">SUBMIT</button>
-            </form>
+
             <div class="word_soruce_div widget">
-                <h3>Currently getting words from:</h3>
-                <h3 id="current_mode">Dictionary</h3>
-                <input type="checkbox" id="current_mode_btn" /><label class="toggle"
-                    for="night-mode-toggle">Toggle</label>
-                <button id="current_lang_btn">
-                    <h3 id="current_lang">German</h3>
-                </button>
-                <input type="checkbox" id="night-mode-toggle" /><label class="toggle"
-                    for="night-mode-toggle">Toggle</label>
+                <div style="display: flex; flex-direction:column; align-items: center;">
+                    <h3 id="current_mode">Dictionary</h3>
+                    <input type="checkbox" id="current_mode_btn" class="toggle_input" /><label class="toggle"
+                        for="current_mode_btn"></label>
+                </div>
+                <div style="display: flex; flex-direction:column; align-items: center;">
+                    <h3 id="theme_txt">Light</h3>
+                    <input type="checkbox" id="night-mode-toggle" class="toggle_input" /><label class="toggle"
+                        for="night-mode-toggle"></label>
+                </div>
+
+                <select id="current_lang_btn">
+                    <option value="german">German</option>
+                    <option value="English">English</option>
+                </select>
+                <form id="word_add_form" class="word_add_form">
+                    <h3>Add a word to the list:</h3><input type="text" id="word-input" class="word_input_field">
+                    <button type="submit" id="submit-button" class="word_input_submit button">SUBMIT</button>
+                    <h4 id="word_add_response">&nbsp;</h4>
+                </form>
             </div>
         </div>
         <div class="game_colum_div">
             <div class="game_div main_widget">
-                <h1 id="word">Pr__s_R_st_rt</h1>
+                <h1 id="word">Pr_ss Rest_rt</h1>
+                <button class="button" id="startgame" type="button">RESTART GAME</button>
                 <div class="wrong_div">
-                    <h4 id="wrong_letters"></h4>
-                    <h4 id="wrong_count"></h4>
+                    <h4 id="wrong_letters">&nbsp;</h4>
+                    <h4 id="wrong_count">&nbsp;</h4>
                 </div>
-                <button class="button" id="startgame" type="button">RESTART GAME</button><br>
                 <canvas class="game_canvas" width="1080" height="1080"></canvas>
             </div>
         </div>
         <div class="filler_colum_div">
-
+            <div class="tutorial_div">
+                <div class="tutorial_title_div">
+                    <h2 class="tutorial_title">How to play</h2>
+                </div>
+                <div class="tutorial_text_div">
+                    <p class="tutorial_text">Press RESTART GAME to begin.</p><br>
+                    <p class="tutorial_text">Press on your keyboard to start guessing letters.</p><br>
+                    <p class="tutorial_text">After a win, you can add a word to the wordlist.</p><br>
+                    <p class="tutorial_text">The wordlist is where words come from and is used by all the users globaly
+                    </p><br>
+                    <p class="tutorial_text">That means if you add a word, another person can randomly find your word
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
     <script src="main.js" async defer type="module"></script>
