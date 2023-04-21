@@ -11,6 +11,7 @@ const current_mode_text = document.getElementById('current_mode');
 const current_mode_btn = document.getElementById('current_mode_btn');
 const current_lang_btn = document.getElementById('current_lang_btn');
 const current_lang_text = document.getElementById('current_lang');
+const word_add_div = document.getElementById('word_add_div');
 const wrong_count_text = document.getElementById('wrong_count');
 const word_FRONT = document.getElementById("word");
 const wrong_letters_FRONT = document.getElementById("wrong_letters");
@@ -50,10 +51,11 @@ submitButton.addEventListener('click', async (event) => {
         localStorage.setItem(length.toString(), wordInput.value);
         allowed_to_add_word = false;
         setTimeout(() => {
-            word_add_form.style.opacity = 0;
-            word_add_form.style.transition = "opacity 0.3s ease";
+            word_add_div.style.transition = "opacity 0.3s ease, margin-left 0.3s ease";
+            word_add_div.style.opacity = 0;
+            word_add_div.style.marginLeft = '40px';
             setTimeout(() => {
-                word_add_form.style.visibility = "hidden";
+                word_add_div.style.visibility = "hidden";
                 word_add_response.innerHTML = '&nbsp;';
                 wordInput.value = '';
             }, 300);
@@ -77,8 +79,9 @@ document.addEventListener('keydown', (event) => {
         if (won()) {
             gameOn = false;
             allowed_to_add_word = true;
-            word_add_form.style.visibility = "visible";
-            word_add_form.style.opacity = 1;
+            word_add_div.style.visibility = "visible";
+            word_add_div.style.opacity = 1;
+            word_add_div.style.marginLeft = "0px";
         }
     } else {
         if (wrongChars.length != 0) {

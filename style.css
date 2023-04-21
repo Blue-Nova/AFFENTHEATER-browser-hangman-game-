@@ -79,8 +79,10 @@ option {
 }
 
 .wrong_div {
+    opacity: 1;
     letter-spacing: 0.25vw;
     text-align: center;
+    transition: opacity 0.3s ease;
 }
 
 .page_div {
@@ -96,11 +98,7 @@ option {
     justify-content: center;
 }
 
-.word_add_form {
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
+
 
 .word_input_field {
     border-radius: 5px;
@@ -120,9 +118,16 @@ option {
     padding: 5px;
     margin: 5px 0 5px 0;
     border-radius: 3px;
-    border: 2px solid var(--middle-gray);
+
     min-height: 20vh;
     min-width: 100vw;
+}
+
+.word_add_div {
+    margin-left: 40px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, margin-left 0.3s ease;
 }
 
 .widget>* {
@@ -131,8 +136,9 @@ option {
 
 .game_canvas {
     display: inline;
-    min-height: 50vw;
+    max-height: 50vw;
     max-width: 50vw;
+    transition: top 10s ease;
 }
 
 .game_colum_div * {
@@ -153,6 +159,10 @@ option {
     text-decoration: underline;
 }
 
+.tutorial_title_div:hover {
+    cursor: default;
+}
+
 .tutorial_title_div:hover+.tutorial_text_div {
     transition: opacity 0.3s ease, margin-top 0.3s ease;
     opacity: 1;
@@ -164,6 +174,13 @@ option {
 }
 
 @media screen and (min-width: 850px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .word {
+        font-size: 3rem;
+    }
 
     .options_colum_div {
         flex: 10%;
@@ -183,11 +200,12 @@ option {
     }
 
     .game_colum_div {
-        flex: 80%;
+        flex: 50%;
         margin-top: 10vh;
     }
 
     .page_div {
+        margin-top: 5vh;
         display: flex;
         flex-direction: row;
     }
@@ -196,11 +214,12 @@ option {
         border-radius: 10px;
         min-height: 1vh;
         min-width: 100%;
+        border: 2px solid var(--middle-gray);
     }
 
     .game_canvas {
-        max-width: 25vw;
-        min-height: 25vw;
+        max-width: 30vh;
+        max-width: 30vh;
     }
 }
 

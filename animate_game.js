@@ -18,59 +18,59 @@ export default class animator {
     animate_step(step) {
         switch (step) {
             case 1:
-                this.ctx.fillRect(...this.getLoc(10, 80), ...this.getLoc(80, 1));
+                this.ctx.fillRect(...this.getLoc(0, 90), ...this.getLoc(100, 1));
                 break;
             case 2:
-                this.ctx.fillRect(...this.getLoc(30, 20), ...this.getLoc(1, 60));
+                this.ctx.fillRect(...this.getLoc(15, 0), ...this.getLoc(1, 90));
                 this.ctx.beginPath();
-                this.ctx.moveTo(...this.getLoc(35.5, 80));
-                this.ctx.lineTo(...this.getLoc(30.5, 75));
-                this.ctx.moveTo(...this.getLoc(25.5, 80));
-                this.ctx.lineTo(...this.getLoc(30.5, 75));
+                this.ctx.moveTo(...this.getLoc(20.5, 90));
+                this.ctx.lineTo(...this.getLoc(15.5, 85));
+                this.ctx.moveTo(...this.getLoc(10.5, 90));
+                this.ctx.lineTo(...this.getLoc(15.5, 85));
                 this.ctx.stroke();
                 break;
             case 3:
-                this.ctx.fillRect(...this.getLoc(30, 20), ...this.getLoc(20, 1));
+                this.ctx.fillRect(...this.getLoc(15, 0), ...this.getLoc(40, 1));
                 break;
             case 4:
                 this.ctx.beginPath();
-                this.ctx.moveTo(...this.getLoc(50, 20));
-                this.ctx.lineTo(...this.getLoc(50, 25));
+                this.ctx.moveTo(...this.getLoc(55, 0));
+                this.ctx.lineTo(...this.getLoc(55, 15));
                 this.ctx.stroke();
                 break;
             case 5:
                 this.ctx.beginPath();
-                this.ctx.arc(...this.getLoc(50, 30), ...this.getLoc(3, 0), Math.PI * 2, false);
+                this.ctx.arc(...this.getLoc(55, 25), ...this.getLoc(6, 0), Math.PI * 2, false);
                 this.ctx.stroke();
                 break;
             case 6:
                 this.ctx.beginPath();
-                this.ctx.moveTo(...this.getLoc(50, 35));
-                this.ctx.lineTo(...this.getLoc(50, 50));
+                this.ctx.moveTo(...this.getLoc(55, 35));
+                this.ctx.lineTo(...this.getLoc(55, 55));
                 this.ctx.stroke();
                 break;
             case 7:
                 this.ctx.beginPath();
-                this.ctx.moveTo(...this.getLoc(47, 45));
-                this.ctx.lineTo(...this.getLoc(50, 35));
+                this.ctx.moveTo(...this.getLoc(45, 45));
+                this.ctx.lineTo(...this.getLoc(55, 35));
                 this.ctx.stroke();
                 break;
             case 8:
                 this.ctx.beginPath();
-                this.ctx.moveTo(...this.getLoc(53, 45));
-                this.ctx.lineTo(...this.getLoc(50, 35));
+                this.ctx.moveTo(...this.getLoc(65, 45));
+                this.ctx.lineTo(...this.getLoc(55, 35));
                 this.ctx.stroke();
                 break;
             case 9:
                 this.ctx.beginPath();
-                this.ctx.moveTo(...this.getLoc(47, 60));
-                this.ctx.lineTo(...this.getLoc(50, 50));
+                this.ctx.moveTo(...this.getLoc(45, 65));
+                this.ctx.lineTo(...this.getLoc(55, 55));
                 this.ctx.stroke();
                 break;
             case 10:
                 this.ctx.beginPath();
-                this.ctx.moveTo(...this.getLoc(53, 60));
-                this.ctx.lineTo(...this.getLoc(50, 50));
+                this.ctx.moveTo(...this.getLoc(65, 65));
+                this.ctx.lineTo(...this.getLoc(55, 55));
                 this.ctx.stroke();
                 break;
             default:

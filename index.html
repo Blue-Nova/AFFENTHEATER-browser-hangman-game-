@@ -36,6 +36,9 @@
                     <option value="german">German</option>
                     <option value="English">English</option>
                 </select>
+
+            </div>
+            <div class="word_add_div widget" id="word_add_div">
                 <form id="word_add_form" class="word_add_form">
                     <h3>Add a word to the list:</h3><input type="text" id="word-input" class="word_input_field">
                     <button type="submit" id="submit-button" class="word_input_submit button">SUBMIT</button>
@@ -45,9 +48,9 @@
         </div>
         <div class="game_colum_div">
             <div class="game_div main_widget">
-                <h1 id="word">Pr_ss Rest_rt</h1>
+                <h1 id="word" class="word">Pr_ss Rest_rt</h1>
                 <button class="button" id="startgame" type="button">RESTART GAME</button>
-                <div class="wrong_div">
+                <div class="wrong_div" id="wrong_div">
                     <h4 id="wrong_letters">&nbsp;</h4>
                     <h4 id="wrong_count">&nbsp;</h4>
                 </div>
