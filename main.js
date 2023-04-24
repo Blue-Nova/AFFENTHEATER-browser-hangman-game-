@@ -1,12 +1,14 @@
+// LIBS, API, AND CLASSES//
 import animator from '/animate_game.js';
 import dictionary from '/dictionary.js';
-const animObject = new animator(25);
-const dicObect = new dictionary();
-const apiUrl = new URL(`https://random-word-api.herokuapp.com/word?lang=en`);
+const anim_object = new animator(25);
+const dic_obect = new dictionary();
+const api_url = new URL(`https://random-word-api.herokuapp.com/word?lang=en`);
 
-const nightModeToggle = document.getElementById("night-mode-toggle");
-const wordInput = document.getElementById('word-input');
-const submitButton = document.getElementById('submit-button');
+// INIT. DOM ELEMENTS//
+const night_mode_toggle = document.getElementById("night-mode-toggle");
+const word_input = document.getElementById('word_input');
+const submit_btn = document.getElementById('submit_btn');
 const current_mode_text = document.getElementById('current_mode');
 const current_mode_btn = document.getElementById('current_mode_btn');
 const current_lang_btn = document.getElementById('current_lang_btn');
@@ -16,39 +18,39 @@ const wrong_count_text = document.getElementById('wrong_count');
 const word_FRONT = document.getElementById("word");
 const wrong_letters_FRONT = document.getElementById("wrong_letters");
 const theme_txt = document.getElementById("theme_txt");
-const word_add_form = document.getElementById("word_add_form");
 const word_add_response = document.getElementById("word_add_response");
-const max_tries = 10;
 
+// GAME VARIABLES//
+const max_tries = 10;
 let english = false;
 let wrong_count = max_tries;
 let word_from_list = false;
-let gameOn = false;
-let wordChars = [];
-let correctChars = [];
-let wrongChars = [];
+let game_on = false;
+let word_chars = [];
+let correct_chars = [];
+let wrong_chars = [];
 let allowed_to_add_word = false;
 
 //////////////// ADDING WORD TO THE GLOBAL LIST //////////////////
-submitButton.addEventListener('click', async (event) => {
+submit_btn.addEventListener('click', async (event) => {
     // preventing default behaviour and checking for correct inputs
     event.preventDefault();
     if (!allowed_to_add_word) {
-        wordInput.value = "You must win a round first!";
+        word_input.value = "You must win a round first!";
         return;
     }
-    if (wordInput.value.match(/[0-9\s]/)) return;
-    if (english) if (!wordInput.value.match(/[a-zA-z]/)) return;
-    else if (!wordInput.value.match(/[a-zA-zäöüÄÖÜ]/)) return;
+    if (word_input.value.match(/[0-9\s]/)) return;
+    if (english) if (!word_input.value.match(/[a-zA-z]/)) return;
+    else if (!word_input.value.match(/[a-zA-zäöüÄÖÜ]/)) return;
     //
-    let check_word_request = new URL("https://api.dictionaryapi.dev/api/v2/entries/en/" + wordInput.value);
+    let check_word_request = new URL("https://api.dictionaryapi.dev/api/v2/entries/en/" + word_input.value);
     let response = await fetch(check_word_request);
     let data = await response.json();
     let obj = JSON.parse(JSON.stringify(data));
     if (obj.title) word_add_response.innerHTML = 'Not a Word!';
-    else if (!word_exists(wordInput.value)) {
+    else if (!word_exists(word_input.value)) {
         let length = localStorage.length + 1
-        localStorage.setItem(length.toString(), wordInput.value);
+        localStorage.setItem(length.toString(), word_input.value);
         allowed_to_add_word = false;
         setTimeout(() => {
             word_add_div.style.transition = "opacity 0.3s ease, margin-left 0.3s ease";
@@ -57,7 +59,7 @@ submitButton.addEventListener('click', async (event) => {
             setTimeout(() => {
                 word_add_div.style.visibility = "hidden";
                 word_add_response.innerHTML = '&nbsp;';
-                wordInput.value = '';
+                word_input.value = '';
             }, 300);
         }, 1000);
         word_add_response.innerHTML = 'Word Added!';
@@ -68,31 +70,31 @@ submitButton.addEventListener('click', async (event) => {
 
 //////////////// KEY DOWN EVENT //////////////////
 document.addEventListener('keydown', (event) => {
-    if (!gameOn) return;
+    if (!game_on) return;
     if (event.key.match(/[0-9]/) || (event.key.length > 1)) return;
     if (english) { if ((event.key.replace(/[^a-zA-Z]/g, "").length == 0)) return; }
     else { if ((event.key.replace(/[^a-zA-ZäöüÄÖÜ]/g, "").length == 0)) return; }
     let guessed_letter = event.key.toLocaleLowerCase();
     if (letterInWord(guessed_letter)) {
-        correctChars.push(guessed_letter);
+        correct_chars.push(guessed_letter);
         refreshWord();
         if (won()) {
-            gameOn = false;
+            game_on = false;
             allowed_to_add_word = true;
             word_add_div.style.visibility = "visible";
             word_add_div.style.opacity = 1;
             word_add_div.style.marginLeft = "0px";
         }
     } else {
-        if (wrongChars.length != 0) {
+        if (wrong_chars.length != 0) {
             if (letterAlreadyWrong(guessed_letter)) {
                 return;
             }
         }
-        wrongChars.push(guessed_letter);
+        wrong_chars.push(guessed_letter);
         wrong_count++;
         refreshWrongGuesses();
-        animObject.animate_step(wrong_count);
+        anim_object.animate_step(wrong_count);
         if (wrong_count >= max_tries) lose();
     }
 
@@ -101,32 +103,32 @@ document.addEventListener('keydown', (event) => {
 //////////////// STARTING GAME ON PRESSING BUTTON //////////////////
 document.getElementById("startgame").addEventListener('click', async function () {
     let wordLower;
-    gameOn = false;
+    game_on = false;
     if (!word_from_list) {
         if (english) {
             let response;
             let data;
-            response = await fetch(apiUrl);
+            response = await fetch(api_url);
             data = await response.json();
             wordLower = data[0].toLowerCase();
-            wordChars = wordLower.split("");
+            word_chars = wordLower.split("");
         } else {
             do {
-                wordLower = dicObect.getRandom().toLocaleLowerCase("de");
+                wordLower = dic_obect.getRandom().toLocaleLowerCase("de");
             } while (wordLower.match(/[0-9]-/))
-            wordChars = wordLower.split("");
+            word_chars = wordLower.split("");
         }
     } else {
-        wordChars = get_random_word().toLocaleLowerCase().split("");
+        word_chars = get_random_word().toLocaleLowerCase().split("");
 
     }
-    gameOn = true;
+    game_on = true;
     wrong_count = 0;
-    correctChars = [];
-    wrongChars = [];
+    correct_chars = [];
+    wrong_chars = [];
     wrong_letters_FRONT.innerHTML = "&nbsp;";
     wrong_count_text.innerHTML = "&nbsp;";
-    animObject.animate_step(0);
+    anim_object.animate_step(0);
     refreshWord();
 },
     true  // Enable event capturing!
@@ -135,7 +137,7 @@ document.getElementById("startgame").addEventListener('click', async function ()
 //////////////// CHECK IF GUESSED LETTER IS CORRECT //////////////////
 function letterInWord(guessed) {
     let correct = false;
-    for (let letter of wordChars) {
+    for (let letter of word_chars) {
         if (guessed == letter) {
             correct = guessed;
             break;
@@ -145,16 +147,16 @@ function letterInWord(guessed) {
 }
 
 function refreshWord() {
-    word_FRONT.innerHTML = bakeWord(wordChars).join("");
+    word_FRONT.innerHTML = bakeWord(word_chars).join("");
 }
 
 function refreshWrongGuesses() {
-    wrong_letters_FRONT.innerHTML = wrongChars;
+    wrong_letters_FRONT.innerHTML = wrong_chars;
     wrong_count_text.innerHTML = "Amount of Wrong Guesses: " + wrong_count;
 }
 
 function letterAlreadyWrong(letter) {
-    for (let wrongLetter of wrongChars) {
+    for (let wrongLetter of wrong_chars) {
         if (wrongLetter == letter) return true;
     }
     return false;
@@ -165,10 +167,10 @@ function bakeWord(word) {
     let index = 0;
     for (var i = 0; i < word.length; i++) {
         let letterFound = false;
-        for (var k = 0; k < correctChars.length; k++) {
-            if (word[i] == correctChars[k]) {
+        for (var k = 0; k < correct_chars.length; k++) {
+            if (word[i] == correct_chars[k]) {
                 letterFound = true;
-                hiddenWord[index] = correctChars[k];
+                hiddenWord[index] = correct_chars[k];
             }
         }
         if (!letterFound) hiddenWord[index] = " _";
@@ -180,9 +182,9 @@ function bakeWord(word) {
 }
 //////////////// WINNING CASE CHECK //////////////////
 function won() {
-    for (let letter of wordChars) {
+    for (let letter of word_chars) {
         let found = false;
-        for (let correct_letter of correctChars) {
+        for (let correct_letter of correct_chars) {
             if (correct_letter == letter) {
                 found = true;
                 break;
@@ -194,8 +196,8 @@ function won() {
 }
 //////////////// FUNCTION UPON LOSS //////////////////
 function lose() {
-    gameOn = false;
-    correctChars = wordChars;
+    game_on = false;
+    correct_chars = word_chars;
     refreshWord();
 }
 /////////////////////////////////////////////////////
@@ -231,10 +233,10 @@ current_lang_btn.addEventListener('click', function () {
     else current_lang_text.textContent = "German"
 }, true)
 
-///////////// UTILITY ///////////
+///////////// USER EXP. ///////////
 
-nightModeToggle.addEventListener("change", function () {
+night_mode_toggle.addEventListener("change", function () {
     document.body.classList.toggle("dark-mode");
-    if (nightModeToggle.checked) theme_txt.innerHTML = "Dark";
+    if (night_mode_toggle.checked) theme_txt.innerHTML = "Dark";
     else theme_txt.innerHTML = "Light";
 });

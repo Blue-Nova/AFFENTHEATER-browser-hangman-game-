@@ -1,12 +1,12 @@
-
+const middle_gray = "#808080"
 export default class animator {
     canvas = document.getElementsByClassName("game_canvas");
     ctx = this.canvas[0].getContext("2d");
     cHeight = this.canvas[0].height;
     cWidth = this.canvas[0].width;
     constructor(lineScale) {
-        this.ctx.strokeStyle = "#808080";
-        this.ctx.fillStyle = "#808080";
+        this.ctx.strokeStyle = middle_gray;
+        this.ctx.fillStyle = middle_gray;
         this.ctx.lineWidth = (lineScale / 100) * ((this.cWidth * 0.01) * (this.cHeight * 0.0025));
     }
     getLoc(percentX, percentY) {

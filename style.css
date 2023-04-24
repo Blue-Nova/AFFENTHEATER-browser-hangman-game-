@@ -3,12 +3,11 @@
     --background-secondary: #dfdfdf;
     --secondary-color: #212121;
     --silver: #C0C0C0;
-
     --middle-gray: #808080;
-
     --night-primary-color: #1b1e27;
 }
 
+/* ELEMENT STYLING */
 html {
     width: 100%;
     height: 100%;
@@ -52,6 +51,12 @@ option {
     border-radius: 2px;
 }
 
+/* DARK MODE */
+.dark-mode {
+    background-color: var(--night-primary-color);
+    color: var(--primary-color);
+}
+
 .dark-mode input,
 .dark-mode textarea,
 .dark-mode form,
@@ -61,28 +66,10 @@ option {
     color: var(--primary-color);
 }
 
-.dark-mode {
-    background-color: var(--night-primary-color);
-    color: var(--primary-color);
-}
-
-.button {
-    background-color: rgba(0, 0, 0, 0);
-    border: 2px solid var(--middle-gray);
-    padding: 0.5rem;
-    border-radius: 2px;
-}
-
+/* MOBILE VIEW STYLING (ordered)*/
 .title {
     text-align: center;
     letter-spacing: 0.5rem;
-}
-
-.wrong_div {
-    opacity: 1;
-    letter-spacing: 0.25vw;
-    text-align: center;
-    transition: opacity 0.3s ease;
 }
 
 .page_div {
@@ -91,36 +78,14 @@ option {
     height: 50vh;
 }
 
-.game_div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.options_colum_div {
+    order: 2;
 }
-
-
 
 .word_input_field {
     border-radius: 5px;
     height: 25px;
     width: fit-content;
-}
-
-.word_input_submit {
-    padding: 0.3rem;
-}
-
-.widget {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-    margin: 5px 0 5px 0;
-    border-radius: 3px;
-
-    min-height: 20vh;
-    min-width: 100vw;
 }
 
 .word_add_div {
@@ -130,8 +95,22 @@ option {
     transition: opacity 0.3s ease, margin-left 0.3s ease;
 }
 
-.widget>* {
-    font-size: 1rem;
+.word_input_submit {
+    padding: 0.3rem;
+}
+
+.game_div {
+    margin-top: 15vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    order: 1;
+}
+
+.game_colum_div * {
+    margin-bottom: 20px;
+
 }
 
 .game_canvas {
@@ -141,18 +120,16 @@ option {
     transition: top 10s ease;
 }
 
-.game_colum_div * {
-    margin-bottom: 20px;
-}
-
 .filler_colum_div {
     text-align: center;
+    order: 3;
 }
 
-.tutorial_text_div {
-    margin-top: 0;
-    opacity: 0;
-    transition: opacity 0.3s ease, margin-top 0.3s ease;
+.wrong_div {
+    opacity: 1;
+    letter-spacing: 0.25vw;
+    text-align: center;
+    transition: opacity 0.3s ease;
 }
 
 .tutorial_title_div {
@@ -169,8 +146,38 @@ option {
     margin-top: 2%;
 }
 
+.tutorial_text_div {
+    margin-top: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease, margin-top 0.3s ease;
+}
+
 .tutorial_text {
     font-weight: bold;
+}
+
+.widget {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    margin: 5px 0 5px 0;
+    border-radius: 3px;
+
+    min-height: 20vh;
+    min-width: 100vw;
+}
+
+.widget>* {
+    font-size: 1rem;
+}
+
+.button {
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid var(--middle-gray);
+    padding: 0.5rem;
+    border-radius: 2px;
 }
 
 @media screen and (min-width: 850px) {
@@ -178,36 +185,49 @@ option {
         font-size: 2rem;
     }
 
-    .word {
-        font-size: 3rem;
+    .page_div {
+        margin: 5vh auto 0 auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        max-width: 1820px;
+    }
+
+    .page_div>* {
+        flex: 1;
+    }
+
+    .page_div>.game_colum_div {
+        flex: 3;
     }
 
     .options_colum_div {
-        flex: 10%;
         text-align: center;
-        margin-left: 1%;
         width: 10%;
+        order: 1;
     }
 
     .options_colum_div * {
         margin-bottom: 2.5%;
     }
 
-    .filler_colum_div {
-        flex: 10%;
-        margin-right: 1%;
-        width: 10%;
-    }
-
     .game_colum_div {
-        flex: 50%;
-        margin-top: 10vh;
+        margin-top: 0vh;
+        order: 2;
     }
 
-    .page_div {
-        margin-top: 5vh;
-        display: flex;
-        flex-direction: row;
+    .word {
+        font-size: 3rem;
+    }
+
+    .game_canvas {
+        max-width: 30vh;
+        max-width: 30vh;
+    }
+
+    .filler_colum_div {
+        order: 3;
+        width: 10%;
     }
 
     .widget {
@@ -217,10 +237,6 @@ option {
         border: 2px solid var(--middle-gray);
     }
 
-    .game_canvas {
-        max-width: 30vh;
-        max-width: 30vh;
-    }
 }
 
 /* SWITCH BUTTONS */
@@ -257,5 +273,3 @@ option {
     left: calc(95% - 1px);
     transform: translateX(-90%);
 }
-
-/*centering*/
