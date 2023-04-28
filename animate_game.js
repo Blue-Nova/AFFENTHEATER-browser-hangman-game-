@@ -1,6 +1,6 @@
-const middle_gray = "#808080"
+const middle_gray = "#808080";
 export default class animator {
-    canvas = document.getElementsByClassName("game_canvas");
+    canvas = document.getElementsByID("game_canvas");
     ctx = this.canvas[0].getContext("2d");
     cHeight = this.canvas[0].height;
     cWidth = this.canvas[0].width;

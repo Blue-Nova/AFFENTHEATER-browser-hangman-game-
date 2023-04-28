@@ -2,7 +2,7 @@
 import animator from '/animate_game.js';
 import dictionary from '/dictionary.js';
 const anim_object = new animator(25);
-const dic_obect = new dictionary();
+const dic_object = new dictionary();
 const api_url = new URL(`https://random-word-api.herokuapp.com/word?lang=en`);
 
 // INIT. DOM ELEMENTS//
@@ -43,14 +43,14 @@ submit_btn.addEventListener('click', async (event) => {
     if (english) if (!word_input.value.match(/[a-zA-z]/)) return;
     else if (!word_input.value.match(/[a-zA-zäöüÄÖÜ]/)) return;
     //
-    let check_word_request = new URL("https://api.dictionaryapi.dev/api/v2/entries/en/" + word_input.value);
-    let response = await fetch(check_word_request);
-    let data = await response.json();
-    let obj = JSON.parse(JSON.stringify(data));
+    const check_word_request = new URL("https://api.dictionaryapi.dev/api/v2/entries/en/" + word_input.value);
+    const response = await fetch(check_word_request);
+    const data = await response.json();
+    const obj = JSON.parse(JSON.stringify(data));
     if (obj.title) word_add_response.innerHTML = 'Not a Word!';
     else if (!word_exists(word_input.value)) {
-        let length = localStorage.length + 1
-        localStorage.setItem(length.toString(), word_input.value);
+        let local_length = localStorage.length + 1
+        localStorage.setItem(local_length.toString(), word_input.value.toLocaleLowerCase());
         allowed_to_add_word = false;
         setTimeout(() => {
             word_add_div.style.transition = "opacity 0.3s ease, margin-left 0.3s ease";
@@ -74,7 +74,7 @@ document.addEventListener('keydown', (event) => {
     if (event.key.match(/[0-9]/) || (event.key.length > 1)) return;
     if (english) { if ((event.key.replace(/[^a-zA-Z]/g, "").length == 0)) return; }
     else { if ((event.key.replace(/[^a-zA-ZäöüÄÖÜ]/g, "").length == 0)) return; }
-    let guessed_letter = event.key.toLocaleLowerCase();
+    const guessed_letter = event.key.toLocaleLowerCase();
     if (letterInWord(guessed_letter)) {
         correct_chars.push(guessed_letter);
         refreshWord();
@@ -102,19 +102,17 @@ document.addEventListener('keydown', (event) => {
 
 //////////////// STARTING GAME ON PRESSING BUTTON //////////////////
 document.getElementById("startgame").addEventListener('click', async function () {
-    let wordLower;
     game_on = false;
     if (!word_from_list) {
+        let word_lower;
         if (english) {
-            let response;
-            let data;
-            response = await fetch(api_url);
-            data = await response.json();
-            wordLower = data[0].toLowerCase();
+            const response = await fetch(api_url);
+            const data = await response.json();
+            word_lower = data[0].toLowerCase();
             word_chars = wordLower.split("");
         } else {
             do {
-                wordLower = dic_obect.getRandom().toLocaleLowerCase("de");
+                word_lower = dic_object.getRandom().toLocaleLowerCase("de");
             } while (wordLower.match(/[0-9]-/))
             word_chars = wordLower.split("");
         }
@@ -163,22 +161,21 @@ function letterAlreadyWrong(letter) {
 }
 //////////////// RETURN STRING WITH GUESSED AND STILL HIDDEN LETTERS //////////////////
 function bakeWord(word) {
-    let hiddenWord = [];
+    let hidden_word = [];
     let index = 0;
-    for (var i = 0; i < word.length; i++) {
+    for (let i = 0; i < word.length; i++) {
         let letterFound = false;
-        for (var k = 0; k < correct_chars.length; k++) {
+        for (let k = 0; k < correct_chars.length; k++) {
             if (word[i] == correct_chars[k]) {
                 letterFound = true;
                 hiddenWord[index] = correct_chars[k];
             }
         }
-        if (!letterFound) hiddenWord[index] = " _";
+        if (!letterFound) hidden_word[index] = " _";
         index++;
     }
 
-    let baked_word = hiddenWord;
-    return baked_word;
+    return hidden_word;
 }
 //////////////// WINNING CASE CHECK //////////////////
 function won() {
@@ -210,7 +207,7 @@ function get_random_word() {
 
 //////////////// CHECK IF INPUTED WORD ALREADY EXISTS IN LOCAL STORAGE //////////////////
 function word_exists(new_word) {
-    for (var i = 0; i < localStorage.length; i++) {
+    for (let i = 0; i < localStorage.length; i++) {
         console.log("checking: " + localStorage.getItem(localStorage.key(i)));
         if (new_word == localStorage.getItem(localStorage.key(i))) {
             console.log("found match");
@@ -222,15 +219,15 @@ function word_exists(new_word) {
 }
 
 current_mode_btn.addEventListener('click', function () {
-    word_from_list = !word_from_list
-    if (word_from_list) current_mode_text.textContent = "List"
-    else current_mode_text.textContent = "Dictionary"
+    word_from_list = !word_from_list;
+    if (word_from_list) current_mode_text.textContent = "List";
+    else current_mode_text.textContent = "Dictionary";
 }, true)
 
 current_lang_btn.addEventListener('click', function () {
-    english = !english
-    if (english) current_lang_text.textContent = "English"
-    else current_lang_text.textContent = "German"
+    english = !english;
+    if (english) current_lang_text.textContent = "English";
+    else current_lang_text.textContent = "German";
 }, true)
 
 ///////////// USER EXP. ///////////
