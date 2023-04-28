@@ -109,12 +109,12 @@ document.getElementById("startgame").addEventListener('click', async function ()
             const response = await fetch(api_url);
             const data = await response.json();
             word_lower = data[0].toLowerCase();
-            word_chars = wordLower.split("");
+            word_chars = di.split("");
         } else {
             do {
                 word_lower = dic_object.getRandom().toLocaleLowerCase("de");
-            } while (wordLower.match(/[0-9]-/))
-            word_chars = wordLower.split("");
+            } while (word_lower.match(/[0-9]-/))
+            word_chars = word_lower.split("");
         }
     } else {
         word_chars = get_random_word().toLocaleLowerCase().split("");
@@ -168,7 +168,7 @@ function bakeWord(word) {
         for (let k = 0; k < correct_chars.length; k++) {
             if (word[i] == correct_chars[k]) {
                 letterFound = true;
-                hiddenWord[index] = correct_chars[k];
+                hidden_word[index] = correct_chars[k];
             }
         }
         if (!letterFound) hidden_word[index] = " _";
