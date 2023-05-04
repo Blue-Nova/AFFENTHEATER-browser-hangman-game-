@@ -2,8 +2,8 @@ const middle_gray = "#808080";
 export default class animator {
     canvas = document.getElementById("game_canvas");
     ctx = this.canvas.getContext("2d");
-    cHeight = this.ctx.height;
-    cWidth = this.ctx.width;
+    cHeight = this.canvas.height;
+    cWidth = this.canvas.width;
     constructor(lineScale) {
         this.ctx.strokeStyle = middle_gray;
         this.ctx.fillStyle = middle_gray;

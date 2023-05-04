@@ -109,7 +109,7 @@ document.getElementById("startgame").addEventListener('click', async function ()
             const response = await fetch(api_url);
             const data = await response.json();
             word_lower = data[0].toLowerCase();
-            word_chars = di.split("");
+            word_chars = word_lower.split("");
         } else {
             do {
                 word_lower = dic_object.getRandom().toLocaleLowerCase("de");
