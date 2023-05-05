@@ -49,8 +49,8 @@ submit_btn.addEventListener('click', async (event) => {
     const obj = JSON.parse(JSON.stringify(data));
     if (obj.title) word_add_response.innerHTML = 'Not a Word!';
     else if (!word_exists(word_input.value)) {
-        let local_length = localStorage.length + 1
-        localStorage.setItem(local_length.toString(), word_input.value.toLocaleLowerCase());
+        const new_length = localStorage.length + 1;
+        localStorage.setItem(new_length.toString(), word_input.value.toLocaleLowerCase());
         allowed_to_add_word = false;
         setTimeout(() => {
             word_add_div.style.transition = "opacity 0.3s ease, margin-left 0.3s ease";
@@ -70,10 +70,21 @@ submit_btn.addEventListener('click', async (event) => {
 
 //////////////// KEY DOWN EVENT //////////////////
 document.addEventListener('keydown', (event) => {
-    if (!game_on) return;
-    if (event.key.match(/[0-9]/) || (event.key.length > 1)) return;
-    if (english) { if ((event.key.replace(/[^a-zA-Z]/g, "").length == 0)) return; }
-    else { if ((event.key.replace(/[^a-zA-ZäöüÄÖÜ]/g, "").length == 0)) return; }
+
+    if (!game_on) {
+        return;
+    }
+    if (english) {
+        if ((!event.key.match(/^[a-zA-Z]$/g))) {
+            return;
+        }
+    }
+    else {
+        if ((!event.key.match(/^[a-zA-ZäöüÄÖÜ]$/g))) {
+            return;
+        }
+    }
+
     const guessed_letter = event.key.toLocaleLowerCase();
     if (letterInWord(guessed_letter)) {
         correct_chars.push(guessed_letter);
@@ -95,10 +106,11 @@ document.addEventListener('keydown', (event) => {
         wrong_count++;
         refreshWrongGuesses();
         anim_object.animate_step(wrong_count);
-        if (wrong_count >= max_tries) lose();
+        if (wrong_count >= max_tries) {
+            lose();
+        }
     }
-
-}, true);
+});
 
 //////////////// STARTING GAME ON PRESSING BUTTON //////////////////
 document.getElementById("startgame").addEventListener('click', async function () {
@@ -128,9 +140,7 @@ document.getElementById("startgame").addEventListener('click', async function ()
     wrong_count_text.innerHTML = "&nbsp;";
     anim_object.animate_step(0);
     refreshWord();
-},
-    true  // Enable event capturing!
-);
+});
 
 //////////////// CHECK IF GUESSED LETTER IS CORRECT //////////////////
 function letterInWord(guessed) {
@@ -155,7 +165,9 @@ function refreshWrongGuesses() {
 
 function letterAlreadyWrong(letter) {
     for (let wrongLetter of wrong_chars) {
-        if (wrongLetter == letter) return true;
+        if (wrongLetter == letter) {
+            return true;
+        }
     }
     return false;
 }
@@ -171,7 +183,9 @@ function bakeWord(word) {
                 hidden_word[index] = correct_chars[k];
             }
         }
-        if (!letterFound) hidden_word[index] = " _";
+        if (!letterFound) {
+            hidden_word[index] = " _";
+        }
         index++;
     }
 
@@ -187,7 +201,9 @@ function won() {
                 break;
             }
         }
-        if (!found) return false;
+        if (!found) {
+            return false;
+        }
     }
     return true;
 }
@@ -220,20 +236,30 @@ function word_exists(new_word) {
 
 current_mode_btn.addEventListener('click', function () {
     word_from_list = !word_from_list;
-    if (word_from_list) current_mode_text.textContent = "List";
-    else current_mode_text.textContent = "Dictionary";
-}, true)
+    if (word_from_list) {
+        current_mode_text.textContent = "List";
+    }
+    else {
+        current_mode_text.textContent = "Dictionary";
+    }
+});
 
 current_lang_btn.addEventListener('click', function () {
     english = !english;
-    if (english) current_lang_text.textContent = "English";
-    else current_lang_text.textContent = "German";
-}, true)
+    if (english) {
+        current_lang_text.textContent = "English";
+    }
+    else {
+        current_lang_text.textContent = "German";
+    }
+});
 
 ///////////// USER EXP. ///////////
 
 night_mode_toggle.addEventListener("change", function () {
     document.body.classList.toggle("dark-mode");
-    if (night_mode_toggle.checked) theme_txt.innerHTML = "Dark";
+    if (night_mode_toggle.checked) {
+        theme_txt.innerHTML = "Dark";
+    }
     else theme_txt.innerHTML = "Light";
 });

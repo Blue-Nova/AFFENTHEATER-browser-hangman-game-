@@ -16,6 +16,7 @@ export default class animator {
     }
 
     animate_step(step) {
+        debugger;
         switch (step) {
             case 1:
                 this.ctx.fillRect(...this.getLoc(0, 90), ...this.getLoc(100, 1));
