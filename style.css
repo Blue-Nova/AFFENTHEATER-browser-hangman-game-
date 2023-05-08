@@ -1,6 +1,17 @@
+:root {
+    --primary-color: #e4e1d8;
+    --background-secondary: #dfdfdf;
+    --secondary-color: #212121;
+    --silver: #C0C0C0;
+    --middle-gray: #808080;
+    --night-primary-color: #1b1e27;
+}
+
+/* ELEMENT STYLING */
 html {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
 }
 
 html * {
@@ -9,21 +20,255 @@ html * {
 }
 
 body {
-    background: linear-gradient(0deg, rgba(110, 152, 0, 1) 0%, rgba(125, 77, 0, 1) 100%);
-
+    color: var(--secondary-color);
+    background-color: var(--primary-color);
+    background-repeat: no-repeat;
+    background-size: cover;
     height: 100%;
     width: 100%;
+    transition: background-color 0.5s ease, color 0.5s ease;
 }
 
+input,
+form,
+textarea,
+button,
+select,
+option {
+    font-weight: bolder;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--secondary-color);
+    transition: color 0.5s ease;
+}
+
+input,
+textarea,
+button,
+select,
+option {
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid var(--middle-gray);
+    border-radius: 2px;
+}
+
+/* DARK MODE */
+.dark-mode {
+    background-color: var(--night-primary-color);
+    color: var(--primary-color);
+}
+
+.dark-mode input,
+.dark-mode textarea,
+.dark-mode form,
+.dark-mode button,
+.dark-mode select,
+.dark-mode option {
+    color: var(--primary-color);
+}
+
+/* MOBILE VIEW STYLING (ordered)*/
 .title {
     text-align: center;
+    letter-spacing: 0.5rem;
+}
+
+.page_div {
+    display: flex;
+    flex-direction: column;
+    height: 50vh;
+}
+
+.options_colum_div {
+    order: 2;
+}
+
+.word_input_field {
+    border-radius: 5px;
+    height: 25px;
+    width: fit-content;
+}
+
+.word_add_div {
+    margin-left: 40px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, margin-left 0.3s ease;
+}
+
+.word_input_submit {
+    padding: 0.3rem;
 }
 
 .game_div {
+    margin-top: 15vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    order: 1;
 }
 
-@media screen and (min-width: 450px) {}
+.game_colum_div * {
+    margin-bottom: 20px;
+
+}
+
+.game_canvas {
+    display: inline;
+    max-height: 50vw;
+    max-width: 50vw;
+}
+
+.filler_colum_div {
+    text-align: center;
+    order: 3;
+}
+
+.wrong_div {
+    opacity: 1;
+    letter-spacing: 0.25vw;
+    text-align: center;
+    transition: opacity 0.3s ease;
+}
+
+.tutorial_title_div {
+    text-decoration: underline;
+}
+
+.tutorial_title_div:hover {
+    cursor: default;
+}
+
+.tutorial_title_div:hover+.tutorial_text_div {
+    transition: opacity 0.3s ease, margin-top 0.3s ease;
+    opacity: 1;
+    margin-top: 2%;
+}
+
+.tutorial_text_div {
+    margin-top: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease, margin-top 0.3s ease;
+}
+
+.tutorial_text {
+    font-weight: bold;
+}
+
+.widget {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    margin: 5px 0 5px 0;
+    border-radius: 3px;
+
+    min-height: 20vh;
+    min-width: 100vw;
+}
+
+.widget>* {
+    font-size: 1rem;
+}
+
+.button {
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid var(--middle-gray);
+    padding: 0.5rem;
+    border-radius: 2px;
+}
+
+@media screen and (min-width: 850px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .page_div {
+        margin: 5vh auto 0 auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        max-width: 1820px;
+    }
+
+    .page_div>* {
+        flex: 1;
+    }
+
+    .page_div>.game_colum_div {
+        flex: 3;
+    }
+
+    .options_colum_div {
+        text-align: center;
+        width: 10%;
+        order: 1;
+    }
+
+    .options_colum_div * {
+        margin-bottom: 2.5%;
+    }
+
+    .game_colum_div {
+        margin-top: 0vh;
+        order: 2;
+    }
+
+    .word {
+        font-size: 3rem;
+    }
+
+    .game_canvas {
+        max-width: 30vh;
+        max-width: 30vh;
+    }
+
+    .filler_colum_div {
+        order: 3;
+        width: 10%;
+    }
+
+    .widget {
+        border-radius: 10px;
+        min-height: 1vh;
+        min-width: 100%;
+        border: 2px solid var(--middle-gray);
+    }
+
+}
+
+/* SWITCH BUTTONS */
+.toggle_input[type=checkbox] {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+}
+
+.toggle {
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 40px;
+    height: 20px;
+    background: var(--middle-gray);
+    display: block;
+    border-radius: 100px;
+    position: relative;
+}
+
+.toggle:after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 18px;
+    height: 18px;
+    background: #fff;
+    border-radius: 90px;
+    transition: 0.3s;
+}
+
+.toggle_input:checked+.toggle:after {
+    left: calc(95% - 1px);
+    transform: translateX(-90%);
+}
